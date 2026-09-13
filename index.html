@@ -29,7 +29,7 @@ async function buscarNegocio() {
 
     try {
 
-        const respuesta = await fetch(CSV_URL);
+        const respuesta = await fetch(CSV_URL + "&t=" + Date.now());
         const texto = await respuesta.text();
 
         const filas = texto.split(/\r?\n/).map(fila => {
