@@ -1,88 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3301 QR</title>
 </head>
-
 <body>
 
-<script>
-
-const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6rm_0szhYMRCujM0NDAssndBNJIYflKhLSY8GYZjvQXuqKKOgD_BhWPZos4IdMGhVMzvK4eBuZ51-/pub?output=csv";
-
-const parametros = new URLSearchParams(window.location.search);
-const codigo = parametros.get("codigo")?.toUpperCase();
-
-async function buscarNegocio() {
-
-    if (!codigo) {
-        document.body.innerHTML = `
-            <div style="font-family:Arial;text-align:center;margin-top:80px">
-                <h2>QR no encontrado</h2>
-                <p>No se especificó ningún código.</p>
-            </div>
-        `;
-        return;
-    }
-
-    try {
-
-        const respuesta = await fetch(CSV_URL + "&t=" + Date.now());
-        const texto = await respuesta.text();
-
-        const filas = texto.split(/\r?\n/).map(fila => {
-            return fila.split(",").map(celda =>
-                celda.trim().replace(/^"|"$/g, "")
-            );
-        });
-
-        const negocio = filas.find(fila =>
-            fila[0]?.toUpperCase() === codigo
-        );
-
-      if (negocio && negocio[2]) {
-
-    document.body.innerHTML = `
-        <div style="font-family:Arial;text-align:center;margin-top:80px">
-            <h2>Encontrado ✅</h2>
-            <p>Código: ${negocio[0]}</p>
-            <p>Link leído:</p>
-            <p><b>${negocio[2]}</b></p>
-        </div>
-    `;
-
-}
-
-            window.location.replace(negocio[2]);
-
-        } else {
-
-            document.body.innerHTML = `
-                <div style="font-family:Arial;text-align:center;margin-top:80px">
-                    <h2>QR no encontrado</h2>
-                    <p>El código <b>${codigo}</b> todavía no está asignado.</p>
-                </div>
-            `;
-
-        }
-
-    } catch (error) {
-
-        document.body.innerHTML = `
-            <div style="font-family:Arial;text-align:center;margin-top:80px">
-                <h2>Error</h2>
-                <p>No se pudo conectar con la base de datos.</p>
-            </div>
-        `;
-
-    }
-}
-
-buscarNegocio();
-
-</script>
+<h1>FUNCIONA BRO 🔥</h1>
+<p>GitHub Pages está mostrando el HTML correctamente.</p>
 
 </body>
 </html>
