@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3301 QR</title>
+</head>
+
+<body>
+<script>
+
+const placas = {
+
+    "A7K2": "https://www.google.com/",
+    "B91X": "https://www.google.com/",
+    "C42P": "https://www.google.com/"
+
+};
+
+const codigo = window.location.pathname
+    .split("/")
+    .filter(Boolean)
+    .pop()
+    .toUpperCase();
+
+if (placas[codigo]) {
+    window.location.replace(placas[codigo]);
+} else {
+    document.body.innerHTML = `
+        <h2>QR no encontrado</h2>
+        <p>Este código todavía no está asignado.</p>
+    `;
+}
+
+</script>
+</body>
+</html>
