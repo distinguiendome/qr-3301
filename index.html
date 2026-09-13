@@ -42,7 +42,18 @@ async function buscarNegocio() {
             fila[0]?.toUpperCase() === codigo
         );
 
-        if (negocio && negocio[2]) {
+      if (negocio && negocio[2]) {
+
+    document.body.innerHTML = `
+        <div style="font-family:Arial;text-align:center;margin-top:80px">
+            <h2>Encontrado ✅</h2>
+            <p>Código: ${negocio[0]}</p>
+            <p>Link leído:</p>
+            <p><b>${negocio[2]}</b></p>
+        </div>
+    `;
+
+}
 
             window.location.replace(negocio[2]);
 
