@@ -7,28 +7,71 @@
 </head>
 
 <body>
+
 <script>
 
-const placas = {
-    "A7K2": "https://www.google.com/",
-    "B91X": "https://www.google.com/",
-    "C42P": "https://www.google.com/"
-};
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6rm_0szhYMRCujM0NDAssndBNJIYflKhLSY8GYZjvQXuqKKOgD_BhWPZos4IdMGhVMzvK4eBuZ51-/pub?output=csv";
 
 const parametros = new URLSearchParams(window.location.search);
 const codigo = parametros.get("codigo")?.toUpperCase();
 
-if (codigo && placas[codigo]) {
-    window.location.replace(placas[codigo]);
-} else {
-    document.body.innerHTML = `
-        <div style="font-family:Arial;text-align:center;margin-top:80px">
-            <h2>QR no encontrado</h2>
-            <p>Este código todavía no está asignado.</p>
-        </div>
-    `;
+async function buscarNegocio() {
+
+    if (!codigo) {
+        document.body.innerHTML = `
+            <div style="font-family:Arial;text-align:center;margin-top:80px">
+                <h2>QR no encontrado</h2>
+                <p>No se especificó ningún código.</p>
+            </div>
+        `;
+        return;
+    }
+
+    try {
+
+        const respuesta = await fetch(CSV_URL);
+        const texto = await respuesta.text();
+
+        const filas = texto.split(/\r?\n/).map(fila => {
+            return fila.split(",").map(celda =>
+                celda.trim().replace(/^"|"$/g, "")
+            );
+        });
+
+        const negocio = filas.find(fila =>
+            fila[0]?.toUpperCase() === codigo
+        );
+
+        if (negocio && negocio[2]) {
+
+            window.location.replace(negocio[2]);
+
+        } else {
+
+            document.body.innerHTML = `
+                <div style="font-family:Arial;text-align:center;margin-top:80px">
+                    <h2>QR no encontrado</h2>
+                    <p>El código <b>${codigo}</b> todavía no está asignado.</p>
+                </div>
+            `;
+
+        }
+
+    } catch (error) {
+
+        document.body.innerHTML = `
+            <div style="font-family:Arial;text-align:center;margin-top:80px">
+                <h2>Error</h2>
+                <p>No se pudo conectar con la base de datos.</p>
+            </div>
+        `;
+
+    }
 }
 
+buscarNegocio();
+
 </script>
+
 </body>
 </html>
