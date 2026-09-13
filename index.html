@@ -10,25 +10,22 @@
 <script>
 
 const placas = {
-
     "A7K2": "https://www.google.com/",
     "B91X": "https://www.google.com/",
     "C42P": "https://www.google.com/"
-
 };
 
-const codigo = window.location.pathname
-    .split("/")
-    .filter(Boolean)
-    .pop()
-    .toUpperCase();
+const parametros = new URLSearchParams(window.location.search);
+const codigo = parametros.get("codigo")?.toUpperCase();
 
-if (placas[codigo]) {
+if (codigo && placas[codigo]) {
     window.location.replace(placas[codigo]);
 } else {
     document.body.innerHTML = `
-        <h2>QR no encontrado</h2>
-        <p>Este código todavía no está asignado.</p>
+        <div style="font-family:Arial;text-align:center;margin-top:80px">
+            <h2>QR no encontrado</h2>
+            <p>Este código todavía no está asignado.</p>
+        </div>
     `;
 }
 
